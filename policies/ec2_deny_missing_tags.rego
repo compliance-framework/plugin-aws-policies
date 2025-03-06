@@ -1,6 +1,6 @@
-package compliance_framework.template.aws
+package compliance_framework.template.aws._deny_missing_tags
 
-required_tags := ["environment", "owner", "compliance", "confidentiality", "backup", "role"]
+required_tags := ["Environment","Security","Compliance","Application","Cost Center","Project","Owner","Name",]
 
 violation[{
     "title": "Check to ensure correct tags are set on EC2 Instances",
