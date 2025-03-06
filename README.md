@@ -17,7 +17,7 @@ Policies are built into bundle to make distribution easier.
 
 You can easily build the policies by running 
 ```shell
-opa build -b policies -o dist/bundle.tar.gz
+mkdir dist && opa build -b policies -o dist/bundle.tar.gz
 ```
 
 ## Running policies locally

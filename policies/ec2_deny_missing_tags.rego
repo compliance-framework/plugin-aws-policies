@@ -1,24 +1,18 @@
-# Ensure that json has "hello": "world" in it.
-#
-# METADATA
-# title: Verify AWS Controls
-# description: Verifies that the correct AWS controls are in place.
-# custom:
-#   controls:
-#     - None
-#   schedule: "* * * * * *"
 package compliance_framework.template.aws
+
+required_tags := ["environment", "owner", "compliance", "confidentiality", "backup", "role"]
 
 violation[{
     "title": "Check to ensure correct tags are set on EC2 Instances",
-    "description": "Ensure that the best practice tags are assigned to the EC2 instance",
+    "description": sprintf("Instance '%v' is missing required tags: %v", [instance.InstanceID, missing_tags]),
     "remarks": "Ensure the following tags are set on the EC2 instance: Environment, Owner, compliance, confidentiality, backup, role."
 }] if {
-    not tag_exists("environment")
-    not tag_exists("role")
+    some instance in input.instances
+    missing_tags := {tag | tag := required_tags[_]; not tag_exists(instance.Tags, tag)}
+    count(missing_tags) > 0
 }
 
-tag_exists(tag_name) if {
-    some tag in input.Tags
-    tag.Key == tag_name
+tag_exists(tags, tag_name) if {
+    some tag in tags
+    lower(tag.Key) == tag_name
 }
