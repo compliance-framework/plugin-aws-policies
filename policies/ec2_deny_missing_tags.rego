@@ -1,6 +1,6 @@
 package compliance_framework.template.aws._deny_missing_tags
 
-required_tags := ["Environment","Security","Compliance","Application","Cost Center","Project","Owner","Name",]
+required_tags := ["Environment","Security","Compliance","Application","Cost Center","Project","Owner","Name"]
 
 violation[{
     "title": "Check to ensure correct tags are set on EC2 Instances",
@@ -14,5 +14,5 @@ violation[{
 
 tag_exists(tags, tag_name) if {
     some tag in tags
-    lower(tag.Key) == tag_name
+     lower(tag.Key) == lower(tag_name)
 }
